@@ -124,6 +124,7 @@ def go_to_point(goal):
 
 	global action_server, state_
 	
+	desired_position = Point()
 	desired_position.x = goal.x
 	desired_position.y = goal.y
 	des_yaw = goal.theta

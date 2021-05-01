@@ -24,22 +24,29 @@ int main(int argc, char **argv)
    ros::ServiceServer service= n.advertiseService("/user_interface", user_interface);
    ros::ServiceClient client_rp = n.serviceClient<rt2_assignment1::RandomPosition>("/position_server");
    
-   actionlib::SimpleActionClient<rt2_assignment1::PositionAction> action_client("Go_to_point", true);
-   std::cout << "Wait for a server" << std::endl;
-   action_client.waitForServer();
+   actionlib::SimpleActionClient<rt2_assignment1::PositionAction> action_client("go_to_point", true);
+
+   //std::cout << "WAIT FOR ACTION SERVER" << std::endl;
+	while(!action_client.waitForServer(ros::Duration(5.0))){
+		ROS_INFO("Waiting for the move_base action server to come up");
+	}
    
+   //std::cout << "ACTION SERVER IS OKAY!" << std::endl;
+   ROS_INFO("ACTION SERVER IS OKAY");
    
    rt2_assignment1::RandomPosition rp;
    rp.request.x_max = 5.0;
    rp.request.x_min = -5.0;
    rp.request.y_max = 5.0;
    rp.request.y_min = -5.0;
-      
+   
+   ROS_INFO("EVERYTHING OKAY!");
+   //std::cout << "EVERYTHING OKAY!" << std::endl;
+   
    while(ros::ok()){
    	
 	ros::spinOnce();
    	if (start){
-		std::cout << "Requesting random goal" << std::endl;
    		client_rp.call(rp);
    		
    		rt2_assignment1::PositionGoal goal;
