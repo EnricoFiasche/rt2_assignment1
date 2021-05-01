@@ -8,6 +8,7 @@ def main():
     time.sleep(10)
     rate = rospy.Rate(20)
     x = int(input("\nPress 1 to start the robot "))
+    rospy.loginfo("PULSANTE PREMUTO")
     while not rospy.is_shutdown():
         if (x == 1):
             ui_client("start")
