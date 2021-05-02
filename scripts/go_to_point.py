@@ -4,7 +4,7 @@ import rospy
 from geometry_msgs.msg import Twist, Point
 from nav_msgs.msg import Odometry
 from tf import transformations
-import rt2_assignment1.msg #import PositionAction
+import rt2_assignment1.msg
 import actionlib
 import math
 
@@ -142,6 +142,7 @@ def go_to_point(goal):
 			# log something
 			action_server.set_preempted()
 			success = False
+			done()
 			break
 			
 		elif state_ == 0:
@@ -174,6 +175,7 @@ def go_to_point(goal):
 
 	if success:
 		rospy.loginfo('Goal: Succeeded!')
+		result.success = True
 		action_server.set_succeeded(result)
 
 def main():
