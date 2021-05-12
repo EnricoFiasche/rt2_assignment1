@@ -42,21 +42,21 @@ rclcpp_components_register_node(state_machine_component
 ament_target_dependencies(state_machine_component rclcpp rclcpp_components std_msgs)
 
 
-add_library(position_service_component SHARED
-  src/position_service.cpp)
+add_library(random_service_component SHARED
+  src/random_point_server.cpp)
 
-rclcpp_components_register_node(position_service_component
+rclcpp_components_register_node(random_service_component
   PLUGIN "rt2_assignment1::PositionService"
   EXECUTABLE comp_position_service)
 
-rosidl_target_interfaces(position_service_component
+rosidl_target_interfaces(random_service_component
   ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
-ament_target_dependencies(position_service_component rclcpp rclcpp_components std_msgs)
+ament_target_dependencies(random_service_component rclcpp rclcpp_components std_msgs)
 
 install(TARGETS
   state_machine_component
-  position_service_component
+  random_service_component
   DESTINATION lib/${PROJECT_NAME}
   LIBRARY DESTINATION lib)
 

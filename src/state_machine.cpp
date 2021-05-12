@@ -24,8 +24,8 @@ namespace rt2_assignment1{
 				// creating the service to manage the 
 				service_ = this->create_service<Command>("/user_interface",std::bind(&StateMachine::user_interface, this, _1, _2, _3));
 				
-				pos_client_ = this->create_client<Position>("/go_to_point");
-				while(!pos_client_->wait_for_service(std::chrono::seconds(3))){
+				goto_client_ = this->create_client<Position>("/go_to_point");
+				while(!goto_client_->wait_for_service(std::chrono::seconds(3))){
 					if(!rclcpp::ok()){
 						RCLCPP_ERROR(this->get_logger(), "position client interrupted");
 						return ;
@@ -61,21 +61,19 @@ namespace rt2_assignment1{
 				   		pos->theta = future.get()->theta;
 
 						std::cout << "\nGoing to the position: x = " << pos->x << " y = " << pos->y << " theta = " << pos->theta << std::endl;
+						
+						using ServicePosFuture = rclcpp::Client<Position>::SharedFuture;
+				   		auto response_pos = [this] (ServicePosFuture futurepos){
+				   			if(futurepos.get()->ok){
+				   				std::cout << "Goal Reached!" << std::endl;
+				   				fsm();
+				   			}
+				   		};
+				   		
+				   		auto future_request_pos = goto_client_->async_send_request(pos,response_pos);
 					};
 			   			
 			   		auto future_request = random_client_->async_send_request(rp, response_received);
-	   				
-	   				//pos->x = x; pos->y = y; pos->theta = theta;
-			   		
-			   		using ServicePosFuture = rclcpp::Client<Position>::SharedFuture;
-			   		auto response_pos = [this] (ServicePosFuture futurepos){
-			   			if(futurepos.get()->ok){
-			   				std::cout << "Goal Reached!" << std::endl;
-			   				fsm();
-			   			}
-			   		};
-			   			
-	   				auto future_request_pos = pos_client_->async_send_request(pos,response_pos);
 			   	}
 			}
 		
@@ -102,9 +100,8 @@ namespace rt2_assignment1{
 			
 			bool start = false;
 			rclcpp::Service<Command>::SharedPtr service_;
-			rclcpp::Client<Position>::SharedPtr pos_client_;
+			rclcpp::Client<Position>::SharedPtr goto_client_;
 			rclcpp::Client<RandomPosition>::SharedPtr random_client_;
-			//double x,y,theta;
 			std::shared_ptr<Position::Request> pos;
 	};
 }
