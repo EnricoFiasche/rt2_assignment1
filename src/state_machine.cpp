@@ -5,8 +5,24 @@
 #include "actionlib/client/terminal_state.h"
 #include "rt2_assignment1/PositionAction.h"
 
-bool start = false;
+bool start = false; /** variable used to read the command sent by the user */
 
+
+/**
+ *  Function of the user_interface server used to modify the value of
+ *  the variable "start", based on the command received by the client. 
+ *
+ *  @param: 
+ *	req:
+ *	     request sent by the client, which could be "start"
+ *	     or "stop".
+ *	
+ *	res:
+ *	    response of the server, which is "true" when it finishes
+ *	    to modify the start value.
+ *
+ *  @return true when it finishes to modify the start value
+ */
 bool user_interface(rt2_assignment1::Command::Request &req, rt2_assignment1::Command::Response &res){
 
     if(req.command == "start")
@@ -18,8 +34,14 @@ bool user_interface(rt2_assignment1::Command::Request &req, rt2_assignment1::Com
     return true;
 }
 
-int main(int argc, char **argv)
-{
+
+/**
+ *  Main function that creates the service "user_interface", a
+ *  client, which is used to receive a random target position, and
+ *  an action client, which is used to send a goal and to check if
+ *  the goal is reached.
+ */
+int main(int argc, char **argv) {
 	ros::init(argc, argv, "state_machine");
 	ros::NodeHandle n;
 	ros::ServiceServer service = n.advertiseService("/user_interface", user_interface);
