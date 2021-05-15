@@ -19,7 +19,7 @@ roslaunch rt2_assignment1 gazeboSim.launch
 #### Simulation with VRep
 You can also run the simulation using **VRep**.
 You need three different terminal to run this simulation.
-In the first one you need to source your ROS workspace and run roscore:
+In the first one you need to source your ROS workspace (or sourcing directly ros.sh) and run roscore:
 ```
 source path_your_workspace/devel/setup.bash
 roscore
