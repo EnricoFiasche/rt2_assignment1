@@ -8,6 +8,8 @@
  *  @param:
  *	M: minimum value allowed for the random number
  *	N: maximum value allowed for the random number 
+ *
+ *  @return: random value between M and N
  */
 double randMToN(double M, double N)
 {     return M + (rand() / ( RAND_MAX / (N-M) ) ) ; }
