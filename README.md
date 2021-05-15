@@ -5,8 +5,8 @@ The assignment requires developing a software architecture for the control of a 
 files must be written in ROS2, as components, so that using ros1_bridge, they can be interfaces with ROS nodes.
 During the simulation, the user can press "1" to give a random goal to the robot, and then press "0" to stop the robot.
 
-### Launch the simulation
-#### Simulation with Gazebo
+## Launch the simulation
+### Simulation with Gazebo
 The package contains the cpp nodes written in ROS2. To run correctly the simulation you must have two additional 
 packages, which are **ros1_bridge** and **rt2_assignment1**, which contains the two nodes in ROS and the gazebo 
 simulation.
@@ -51,7 +51,7 @@ check if the path of the workspaces are correctly defined. To launch the script,
 ./gazeboScript.sh
 ```
 
-#### Simulation with VRep
+### Simulation with VRep
 You can also run the simulation using **VRep**. To run correctly the simulation you must have two additional 
 packages, which are **ros1_bridge** and **rt2_assignment1**, which contains the two nodes in ROS, and you must have 
 CoppeliaSim in your machine.
