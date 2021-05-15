@@ -13,12 +13,10 @@ bool start = false; /** variable used to read the command sent by the user */
  *  the variable "start", based on the command received by the client. 
  *
  *  @param: 
- *	req:
- *	     request sent by the client, which could be "start"
+ *	req: request sent by the client, which could be "start"
  *	     or "stop".
  *	
- *	res:
- *	    response of the server, which is "true" when it finishes
+ *	res: response of the server, which is "true" when it finishes
  *	    to modify the start value.
  *
  *  @return true when it finishes to modify the start value
