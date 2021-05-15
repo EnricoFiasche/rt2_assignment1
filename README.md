@@ -31,7 +31,7 @@ cd path_CoppeliaSim/
 ./coppeliaSim.sh
 ```
 When the CoppeliaSim program is running, open the scene "vrepSceneR2D2.ttt" inside the rt2_assignment1 package and start the simulation
-pressing play.\n
+pressing play.
 In the last terminal launch the nodes:
 ```
 source path_your_workspace/devel/setup.bash
