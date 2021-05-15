@@ -18,7 +18,7 @@ sudo apt-get install gnome-terminal
 ```
 Now you can launch the simulation in two different way:
 - running each launch file on different terminals. <br/> You need three different terminal.
-In the first one, used to launch ROS nodes, you have to source your ROS workspace:
+In the first one, used to launch ROS nodes, you have to source your ROS workspace (or sourcing directly ros.sh):
 ```
 source path_your_ros_workspace/devel/setup.bash
 ```
@@ -26,7 +26,7 @@ Then you have to launch the gazeboSim (in the ROS workspace, you can use the bra
 ```
 roslaunch rt2_assignment1 gazeboSim.launch
 ```
-In the second one, used to run the ros bridge, you have to source ROS and ROS2 workspace:
+In the second one, used to run the ros bridge, you have to source ROS and ROS2 workspace (or sourcing directly ros12.sh):
 ```
 source path_your_ros_workspace/devel/setup.bash
 source /opt/ros/foxy/setup.bash
@@ -36,7 +36,7 @@ Then you have to run the ros1_bridge (in the ROS2 workspace), please run:
 ```
 ros2 run ros1_bridge dynamic_bridge
 ```
-In the last one, used to launch the ros2 components, you have to source your ROS2 workspace:
+In the last one, used to launch the ros2 components, you have to source your ROS2 workspace (or sourcing directly ros2.sh):
 ```
 source /opt/ros/foxy/setup.bash
 source path_your_ros2_workspace/install/setup.bash
@@ -62,7 +62,7 @@ new command, please run:
 sudo apt-get install gnome-terminal
 ```
 Before running the codes you need to open CoppeliaSim and the correct scene. You need two different terminal to run 
-the scene. In the first one you have to source your ROS workspace and run roscore node:
+the scene. In the first one you have to source your ROS workspace (or sourcing directly ros.sh) and run roscore node:
 ```
 source path_your_ros_workspace/devel/setup.bash
 roscore
@@ -77,7 +77,7 @@ When the CoppeliaSim program is running, open the scene "vrepSceneR2D2.ttt" insi
 start the simulation pressing play.
 Now you can launch the simulation in two different way:
 - running each launch file on different terminals. <br/> You need three different terminal.
-In the first one, used to launch ROS nodes, you have to source your ROS workspace:
+In the first one, used to launch ROS nodes, you have to source your ROS workspace (or sourcing directly ros.sh):
 ```
 source path_your_ros_workspace/devel/setup.bash
 ```
@@ -85,7 +85,7 @@ Then you have to launch the vrepSim (in the ROS workspace, you can use the branc
 ```
 roslaunch rt2_assignment1 vrepSim.launch
 ```
-In the second one, used to run the ros bridge, you have to source ROS and ROS2 workspace:
+In the second one, used to run the ros bridge, you have to source ROS and ROS2 workspace (or sourcing directly ros12.sh):
 ```
 source path_your_ros_workspace/devel/setup.bash
 source /opt/ros/foxy/setup.bash
@@ -95,7 +95,7 @@ Then you have to run the ros1_bridge (in the ROS2 workspace), please run:
 ```
 ros2 run ros1_bridge dynamic_bridge
 ```
-In the last one, used to launch the ros2 components, you have to your ROS2 workspace:
+In the last one, used to launch the ros2 components, you have to your ROS2 workspace (or sourcing directly ros2.sh):
 ```
 source /opt/ros/foxy/setup.bash
 source path_your_ros2_workspace/install/setup.bash
