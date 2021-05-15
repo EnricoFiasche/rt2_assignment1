@@ -45,7 +45,7 @@ Then you have to launch the components (in the ROS2 workspace), please run:
 ```
 ros2 launch rt2_assignment1 my_launch.py
 ```
-- using only the scripts. <br/> You can run directly the script **gazeboScript.sh**. Before running the script please
+- using only the script. <br/> You can run directly the script **gazeboScript.sh**. Before running the script please
 check if the path of the workspaces are correctly defined. To launch the script, please run:
 ```
 ./gazeboScript.sh
@@ -104,15 +104,27 @@ Then you have to launch the components (in the ROS2 workspace), please run:
 ```
 ros2 launch rt2_assignment1 my_launch.py
 ```
-- using only the scripts. <br/> You can run directly the script **gazeboScript.sh**. Before running the script please
+- using only the script. <br/> You can run directly the script **gazeboScript.sh**. Before running the script please
 check if the path of the workspaces are correctly defined. To launch the script, please run:
 ```
 ./vrepScript.sh
 ```
 
-
 ## Nodes and program description
+In this package there are two different components used to achieve the goal required by the assignment. The programs
+are written in C++:
+- The first one, **random_point_server.cpp**, which is a ROS2 server component that generates three random numbers.
+This node uses the service message RandomPosition which has as request the minimum and maximum value allowed for the
+x and y position, and it has as response the three coordinates of the random goal (x,y posiion and the orientation theta).
+- The second one, **state_machine.cpp**, which is a ROS2 component used to communicate with the other nodes. This one has
+two different client, one which is connected to the **random_point_server.cpp** in order to receive the next goal,
+the other one which is used to send new goals and to check if a target is reached, and a server, which
+receives the request done by the user through the _user\_interface.py_. When the **state_machine** received a Command
+request from a client, if the user command is "start" the component start a function that makes a request to
+**random_point_server.cpp** receiving a goal between -5.0 and 5.0, regarding x and y position, and the theta orientation,
+then the state machine sends this goal making a request to **go_to_point** server and when the response from the server
+is received, so the goal is reached, call again the function in order to reach a new goal.
 
-
-
+## Launch file
+In this package there is a launch file called **my_launch.py**, which load and run the two components described before. 
 
