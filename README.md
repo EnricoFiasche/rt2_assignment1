@@ -63,4 +63,8 @@ is "_start_" the node make a request to **position_service.cpp** receiving a goa
 and the theta orientation, then the state machine sends this goal to the server using the action client and waits for a result,
 which could be a "success" in case of goal reached and a "failure" in case of goal canceled.
 
+## Launch file
+In the folder launch there are two different launch files:
+- The first one, **gazeboSim.launch**, used to launch the Gazebo environment and to run the four nodes.
+- The second one, **vrepSim.launch**, used to launch only the four nodes.
 
