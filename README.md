@@ -19,20 +19,20 @@ roslaunch rt2_assignment1 gazeboSim.launch
 #### Simulation with VRep
 You can also run the simulation using **VRep**.
 You need three different terminal to run this simulation.
-In the first one you need to source your ROS workspace and run roscore, just doing:
+In the first one you need to source your ROS workspace and run roscore:
 ```
 source path_your_workspace/devel/setup.bash
 roscore
 ```
-In the second terminal you need to run launch **CoppeliaSim** just writing this:
+In the second terminal you need to launch **CoppeliaSim**:
 ```
 source path_your_workspace/devel/setup.bash
 cd path_CoppeliaSim/
 ./coppeliaSim.sh
 ```
 When the CoppeliaSim program is running, open the scene "vrepSceneR2D2.ttt" inside the rt2_assignment1 package and start the simulation
-pressing play.
-In the last terminal launch the nodes, please run:
+pressing play.\n
+In the last terminal launch the nodes:
 ```
 source path_your_workspace/devel/setup.bash
 roslaunch rt2_assignment1 vrepSim.launch
