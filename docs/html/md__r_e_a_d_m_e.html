@@ -68,22 +68,7 @@ $(function() {
 <div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
 General information</h1>
 <p>The assignment requires developing a software architecture for the control of a robot in the environment. The <b><a class="el" href="namespacego__to__point.html">go_to_point</a></b> node must be modelled as a ROS action server. During the simulation, the user can press "1" to give a random goal to the robot, and then press "0" to stop the robot.</p>
-<h2><a class="anchor" id="autotoc_md2"></a>
-Launch the simulation</h2>
-<h3><a class="anchor" id="autotoc_md3"></a>
-Simulation with Gazebo</h3>
-<p>The package contains the nodes and the simulation environment for controlling a mobile robot in the Gazebo simulation environment. Before launching the node, please source your ROS workspace, just writing this on the terminal: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
-</div><!-- fragment --><p>To launch the nodes, please run: </p><div class="fragment"><div class="line">roslaunch rt2_assignment1 gazeboSim.launch</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md4"></a>
-Simulation with VRep</h3>
-<p>You can also run the simulation using <b>VRep</b>. You need three different terminal to run this simulation. In the first one you need to source your ROS workspace (or sourcing directly ros.sh) and run roscore: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
-<div class="line">roscore</div>
-</div><!-- fragment --><p>In the second terminal you need to launch <b>CoppeliaSim</b>: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
-<div class="line">cd path_CoppeliaSim/</div>
-<div class="line">./coppeliaSim.sh</div>
-</div><!-- fragment --><p>When the CoppeliaSim program is running, open the scene "vrepSceneR2D2.ttt" inside the rt2_assignment1 package and start the simulation pressing play. In the last terminal launch the nodes: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
-<div class="line">roslaunch rt2_assignment1 vrepSim.launch</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Nodes and program description</h1>
 <p>In the assignment there are four different program used to achieve the goal required by the assignment. The program are writtten two in Python and two in C++:</p><ul>
 <li>The first one, <b><a class="el" href="go__to__point_8py.html">go_to_point.py</a></b>, is an <em>action server</em> used to reach a given goal. This node use a publisher, which publishes the velocity of the robot through the <em>cmd_vel</em> topic, and a subscriber, which checks the position of the robot through the <em>odom</em> topic. If a new goal is set, this node fix the yaw angle in order to be aligned with the goal, then the robot can go straight towards the target point and finally, when the robot is near the desired position, it can fix the final yaw angle in order to have the same orientation of the given goal. During these operations, the node checks continuously if the goal is canceled in order to stop the robot.</li>
@@ -91,13 +76,28 @@ Nodes and program description</h1>
 <li>The third one, <b><a class="el" href="position__service_8cpp.html">position_service.cpp</a></b>, is a simple server that generates three random number. This node uses the service message <em>RandomPosition</em> which has as request the minimum and maximum value allowed for the x and y position, and it has as response the three coordinates of the random goal (x,y posiion and the orientation theta).</li>
 <li>The last one, <b><a class="el" href="state__machine_8cpp.html">state_machine.cpp</a></b>, is a node used to communicate with all the other nodes. This one has a simple client, which is connected to the <b><a class="el" href="position__service_8cpp.html">position_service.cpp</a></b> in order to receive the next goal, a server, which receives the request done by the user through the <b><a class="el" href="user__interface_8py.html">user_interface.py</a></b>, and an action client, which is used to send new goals and to check if a target is reached. Before start searching a new goal the state machine checks if there is a <em>Command</em> request from a client, then if the user command is "_start_" the node make a request to <b><a class="el" href="position__service_8cpp.html">position_service.cpp</a></b> receiving a goal between -5.0 and 5.0, regarding x and y position, and the theta orientation, then the state machine sends this goal to the server using the action client and waits for a result, which could be a "success" in case of goal reached and a "failure" in case of goal canceled.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md6"></a>
-Launch file</h1>
-<p>In the folder launch there are two different launch files:</p><ul>
-<li>The first one, <b>gazeboSim.launch</b>, used to launch the Gazebo environment and to run the four nodes.</li>
-<li>The second one, <b>vrepSim.launch</b>, used to launch only the four nodes. </li>
+<h2><a class="anchor" id="autotoc_md3"></a>
+Launch files</h2>
+<p>In the folder <em>launch</em> there are two different launch files:</p><ul>
+<li>The first one, <b>gazeboSim.launch</b>, used to launch the Gazebo environment and to run the four nodes together.</li>
+<li>The second one, <b>vrepSim.launch</b>, used to launch only the four nodes together.</li>
 </ul>
-</div></div><!-- contents -->
+<h1><a class="anchor" id="autotoc_md4"></a>
+How to run the code</h1>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Simulation with Gazebo</h2>
+<p>The package contains the nodes and the simulation environment for controlling a mobile robot in the Gazebo simulation environment. Before launching the node, please source your ROS workspace, just writing this on the terminal: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
+</div><!-- fragment --><p>To launch the nodes, please run: </p><div class="fragment"><div class="line">roslaunch rt2_assignment1 gazeboSim.launch</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+Simulation with VRep</h2>
+<p>You can also run the simulation using <b>VRep</b>. You need three different terminal to run this simulation. In the first one you need to source your ROS workspace (or sourcing directly ros.sh) and run roscore: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
+<div class="line">roscore</div>
+</div><!-- fragment --><p>In the second terminal you need to launch <b>CoppeliaSim</b>: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
+<div class="line">cd path_CoppeliaSim/</div>
+<div class="line">./coppeliaSim.sh</div>
+</div><!-- fragment --><p>When the CoppeliaSim program is running, open the scene "vrepSceneR2D2.ttt" inside the rt2_assignment1 package and start the simulation pressing play. In the last terminal launch the nodes: </p><div class="fragment"><div class="line">source path_your_workspace/devel/setup.bash</div>
+<div class="line">roslaunch rt2_assignment1 vrepSim.launch</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
