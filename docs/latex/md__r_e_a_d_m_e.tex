@@ -1,0 +1,140 @@
+\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{General information}\label{md__r_e_a_d_m_e_autotoc_md1}
+The assignment requires developing a software architecture for the control of a robot in the environment. The two cpp files must be written in R\+O\+S2, as components, so that using ros1\+\_\+bridge, they can be interfaces with R\+OS nodes. During the simulation, the user can press \char`\"{}1\char`\"{} to give a random goal to the robot, and then press \char`\"{}0\char`\"{} to stop the robot.\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{Launch the simulation}\label{md__r_e_a_d_m_e_autotoc_md2}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysubsection{Simulation with Gazebo}\label{md__r_e_a_d_m_e_autotoc_md3}
+The package contains the cpp nodes written in R\+O\+S2. To run correctly the simulation you must have two additional packages, which are {\bfseries{ros1\+\_\+bridge}} and {\bfseries{\mbox{\hyperlink{namespacert2__assignment1}{rt2\+\_\+assignment1}}}}, which contains the two nodes in R\+OS and the gazebo simulation. To launch quickly all the simulation there is a script {\bfseries{gazebo\+Script.\+sh}} that must be launched in the {\itshape root} folder. Before launching the script please check that you have installed {\bfseries{gnome-\/terminal}} in your terminal. To install this new command, please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo apt-\/get install gnome-\/terminal}
+\end{DoxyCode}
+
+
+Now you can launch the simulation in two different way\+:
+\begin{DoxyItemize}
+\item running each launch file on different terminals. ~\newline
+ You need three different terminal. In the first one, used to launch R\+OS nodes, you have to source your R\+OS workspace (or sourcing directly ros.\+sh)\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source path\_your\_ros\_workspace/devel/setup.bash}
+\end{DoxyCode}
+
+\end{DoxyItemize}
+
+Then you have to launch the gazebo\+Sim (in the R\+OS workspace, you can use the branch main to run it), please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{roslaunch rt2\_assignment1 gazeboSim.launch}
+\end{DoxyCode}
+
+
+In the second one, used to run the ros bridge, you have to source R\+OS and R\+O\+S2 workspace (or sourcing directly ros12.\+sh)\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source path\_your\_ros\_workspace/devel/setup.bash}
+\DoxyCodeLine{source /opt/ros/foxy/setup.bash}
+\DoxyCodeLine{source path\_your\_ros2\_workspace/install/setup.bash}
+\end{DoxyCode}
+
+
+Then you have to run the ros1\+\_\+bridge (in the R\+O\+S2 workspace), please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ros2 run ros1\_bridge dynamic\_bridge}
+\end{DoxyCode}
+
+
+In the last one, used to launch the ros2 components, you have to source your R\+O\+S2 workspace (or sourcing directly ros2.\+sh)\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source /opt/ros/foxy/setup.bash}
+\DoxyCodeLine{source path\_your\_ros2\_workspace/install/setup.bash}
+\end{DoxyCode}
+
+
+Then you have to launch the components (in the R\+O\+S2 workspace), please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ros2 launch rt2\_assignment1 my\_launch.py}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item using only the script. ~\newline
+ You can run directly the script {\bfseries{gazebo\+Script.\+sh}}. Before running the script please check if the path of the workspaces are correctly defined. To launch the script, please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./gazeboScript.sh}
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysubsection{Simulation with V\+Rep}\label{md__r_e_a_d_m_e_autotoc_md4}
+You can also run the simulation using {\bfseries{V\+Rep}}. To run correctly the simulation you must have two additional packages, which are {\bfseries{ros1\+\_\+bridge}} and {\bfseries{\mbox{\hyperlink{namespacert2__assignment1}{rt2\+\_\+assignment1}}}}, which contains the two nodes in R\+OS, and you must have Coppelia\+Sim in your machine. To launch quickly all the simulation there is a script {\bfseries{vrep\+Script.\+sh}} that must be launched in the {\itshape root} folder. Before launching the script please check that you have installed {\bfseries{gnome-\/terminal}} in your terminal. To install this new command, please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo apt-\/get install gnome-\/terminal}
+\end{DoxyCode}
+
+
+Before running the codes you need to open Coppelia\+Sim and the correct scene. You need two different terminal to run the scene. In the first one you have to source your R\+OS workspace (or sourcing directly ros.\+sh) and run roscore node\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source path\_your\_ros\_workspace/devel/setup.bash}
+\DoxyCodeLine{roscore}
+\end{DoxyCode}
+
+
+In the second terminal you need to source your R\+OS workspace and run Coppelia\+Sim\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source path\_your\_workspace/devel/setup.bash}
+\DoxyCodeLine{cd path\_CoppeliaSim/}
+\DoxyCodeLine{./coppeliaSim.sh}
+\end{DoxyCode}
+
+
+When the Coppelia\+Sim program is running, open the scene \char`\"{}vrep\+Scene\+R2\+D2.\+ttt\char`\"{} inside the \mbox{\hyperlink{namespacert2__assignment1}{rt2\+\_\+assignment1}} package and start the simulation pressing play. Now you can launch the simulation in two different way\+:
+\begin{DoxyItemize}
+\item running each launch file on different terminals. ~\newline
+ You need three different terminal. In the first one, used to launch R\+OS nodes, you have to source your R\+OS workspace (or sourcing directly ros.\+sh)\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source path\_your\_ros\_workspace/devel/setup.bash}
+\end{DoxyCode}
+
+\end{DoxyItemize}
+
+Then you have to launch the vrep\+Sim (in the R\+OS workspace, you can use the branch main to run it), please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{roslaunch rt2\_assignment1 vrepSim.launch}
+\end{DoxyCode}
+
+
+In the second one, used to run the ros bridge, you have to source R\+OS and R\+O\+S2 workspace (or sourcing directly ros12.\+sh)\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source path\_your\_ros\_workspace/devel/setup.bash}
+\DoxyCodeLine{source /opt/ros/foxy/setup.bash}
+\DoxyCodeLine{source path\_your\_ros2\_workspace/install/setup.bash}
+\end{DoxyCode}
+
+
+Then you have to run the ros1\+\_\+bridge (in the R\+O\+S2 workspace), please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ros2 run ros1\_bridge dynamic\_bridge}
+\end{DoxyCode}
+
+
+In the last one, used to launch the ros2 components, you have to your R\+O\+S2 workspace (or sourcing directly ros2.\+sh)\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source /opt/ros/foxy/setup.bash}
+\DoxyCodeLine{source path\_your\_ros2\_workspace/install/setup.bash}
+\end{DoxyCode}
+
+
+Then you have to launch the components (in the R\+O\+S2 workspace), please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ros2 launch rt2\_assignment1 my\_launch.py}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item using only the script. ~\newline
+ You can run directly the script {\bfseries{gazebo\+Script.\+sh}}. Before running the script please check if the path of the workspaces are correctly defined. To launch the script, please run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./vrepScript.sh}
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysection{Nodes and program description}\label{md__r_e_a_d_m_e_autotoc_md5}
+In this package there are two different components used to achieve the goal required by the assignment. The programs are written in C++\+:
+\begin{DoxyItemize}
+\item The first one, {\bfseries{\mbox{\hyperlink{random__point__server_8cpp}{random\+\_\+point\+\_\+server.\+cpp}}}}, which is a R\+O\+S2 server component that generates three random numbers. This node uses the service message Random\+Position which has as request the minimum and maximum value allowed for the x and y position, and it has as response the three coordinates of the random goal (x,y posiion and the orientation theta).
+\item The second one, {\bfseries{\mbox{\hyperlink{state__machine_8cpp}{state\+\_\+machine.\+cpp}}}}, which is a R\+O\+S2 component used to communicate with the other nodes. This one has two different client, one which is connected to the {\bfseries{\mbox{\hyperlink{random__point__server_8cpp}{random\+\_\+point\+\_\+server.\+cpp}}}} in order to receive the next goal, the other one which is used to send new goals and to check if a target is reached, and a server, which receives the request done by the user through the {\itshape user\+\_\+interface.\+py}. When the {\bfseries{state\+\_\+machine}} received a Command request from a client, if the user command is \char`\"{}start\char`\"{} the component start a function that makes a request to {\bfseries{\mbox{\hyperlink{random__point__server_8cpp}{random\+\_\+point\+\_\+server.\+cpp}}}} receiving a goal between -\/5.\+0 and 5.\+0, regarding x and y position, and the theta orientation, then the state machine sends this goal making a request to {\bfseries{go\+\_\+to\+\_\+point}} server and when the response from the server is received, so the goal is reached, call again the function in order to reach a new goal.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysection{Launch file}\label{md__r_e_a_d_m_e_autotoc_md6}
+In this package there is a launch file called {\bfseries{\mbox{\hyperlink{my__launch_8py}{my\+\_\+launch.\+py}}}}, which load and run the two components described before. 

@@ -1,0 +1,52 @@
+\hypertarget{classrt2__assignment1_1_1_state_machine}{}\doxysection{rt2\+\_\+assignment1\+::State\+Machine Class Reference}
+\label{classrt2__assignment1_1_1_state_machine}\index{rt2\_assignment1::StateMachine@{rt2\_assignment1::StateMachine}}
+
+
+Inheritance diagram for rt2\+\_\+assignment1\+::State\+Machine\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=251pt]{classrt2__assignment1_1_1_state_machine__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rt2\+\_\+assignment1\+::State\+Machine\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=251pt]{classrt2__assignment1_1_1_state_machine__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrt2__assignment1_1_1_state_machine_af6d63f4d9d1fc8f55fdc97f09862ad4f}{State\+Machine}} (const rclcpp\+::\+Node\+Options \&options)
+\item 
+void \mbox{\hyperlink{classrt2__assignment1_1_1_state_machine_a0bc2c6d1e106b71dbee2a146690a9566}{fsm}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrt2__assignment1_1_1_state_machine_af6d63f4d9d1fc8f55fdc97f09862ad4f}\label{classrt2__assignment1_1_1_state_machine_af6d63f4d9d1fc8f55fdc97f09862ad4f}} 
+\index{rt2\_assignment1::StateMachine@{rt2\_assignment1::StateMachine}!StateMachine@{StateMachine}}
+\index{StateMachine@{StateMachine}!rt2\_assignment1::StateMachine@{rt2\_assignment1::StateMachine}}
+\doxysubsubsection{\texorpdfstring{StateMachine()}{StateMachine()}}
+{\footnotesize\ttfamily rt2\+\_\+assignment1\+::\+State\+Machine\+::\+State\+Machine (\begin{DoxyParamCaption}\item[{const rclcpp\+::\+Node\+Options \&}]{options }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\hyperlink{classrt2__assignment1_1_1_state_machine}{State\+Machine}} constructor that a server, which allows the node to read the command sent by the user, and two, one to get a random target point and one to communicate with go\+\_\+to\+\_\+point, which move the robot in order to reach the goal. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrt2__assignment1_1_1_state_machine_a0bc2c6d1e106b71dbee2a146690a9566}\label{classrt2__assignment1_1_1_state_machine_a0bc2c6d1e106b71dbee2a146690a9566}} 
+\index{rt2\_assignment1::StateMachine@{rt2\_assignment1::StateMachine}!fsm@{fsm}}
+\index{fsm@{fsm}!rt2\_assignment1::StateMachine@{rt2\_assignment1::StateMachine}}
+\doxysubsubsection{\texorpdfstring{fsm()}{fsm()}}
+{\footnotesize\ttfamily void rt2\+\_\+assignment1\+::\+State\+Machine\+::fsm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Function used to make request to the Random\+Position server and to send the goal position to go\+\_\+to\+\_\+point. If the value of start is true, the function makes a request to the Random\+Position server in order to get the next goal, then sends it to go\+\_\+to\+\_\+point and waits the result. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{state__machine_8cpp}{state\+\_\+machine.\+cpp}}\end{DoxyCompactItemize}
