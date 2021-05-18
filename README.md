@@ -17,7 +17,7 @@ new command, please run:
 sudo apt-get install gnome-terminal
 ```
 Now you can launch the simulation in two different way:
-- running each launch file on different terminals. <br/> You need three different terminal.
+- running each launch file on different terminals. You need three different terminal.
 In the first one, used to launch ROS nodes, you have to source your ROS workspace (or sourcing directly ros.sh):
 ```
 source path_your_ros_workspace/devel/setup.bash
