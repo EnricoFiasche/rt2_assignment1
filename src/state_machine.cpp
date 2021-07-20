@@ -4,6 +4,7 @@
 #include "actionlib/client/simple_action_client.h"
 #include "actionlib/client/terminal_state.h"
 #include "rt2_assignment1/PositionAction.h"
+#include "std_msgs/Int32.h"
 
 bool start = false; /** variable used to read the command sent by the user */
 
@@ -28,7 +29,7 @@ bool user_interface(rt2_assignment1::Command::Request &req, rt2_assignment1::Com
 
     else if(req.command == "stop")
     	start = false;
-    
+
     return true;
 }
 
@@ -44,6 +45,7 @@ int main(int argc, char **argv) {
 	ros::NodeHandle n;
 	ros::ServiceServer service = n.advertiseService("/user_interface", user_interface);
 	ros::ServiceClient client_rp = n.serviceClient<rt2_assignment1::RandomPosition>("/position_server");
+	ros::Publisher results_pub = n.advertise<std_msgs::Int32>("/stateResult", 1000);
    
 	actionlib::SimpleActionClient<rt2_assignment1::PositionAction> action_client("go_to_point", true);
 
@@ -57,6 +59,7 @@ int main(int argc, char **argv) {
 	rp.request.y_max = 5.0;
 	rp.request.y_min = -5.0;
 
+	std_msgs::Int32 state;
 	while(ros::ok()){
 		ros::spinOnce();
 		
@@ -74,7 +77,16 @@ int main(int argc, char **argv) {
 			action_client.waitForResult();
 			if (action_client.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
 				std::cout << "Target reached!" << std::endl;
+				state.data = 1;
+				results_pub.publish(state);
 			}
+			else if(action_client.getState() == actionlib::SimpleClientGoalState::PREEMPTED){
+				std::cout << "Goal canceled" << std::endl;
+				state.data = 0;
+				results_pub.publish(state);
+			}
+			
+			ros::Duration(0.5).sleep();
 		}
    }
    

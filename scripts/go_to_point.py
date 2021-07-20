@@ -50,6 +50,12 @@ ub_d = 0.6
 ## action server used to manage go_to_point
 action_server = None
 
+def clbk_consts(msg_consts):
+	global kp_d, kp_a;
+	
+	kp_d = msg_consts.linear.x
+	kp_a = msg_consts.angular.z
+	
 def clbk_odom(msg):
 	"""
 		Callback function used to check the actual position of the 
@@ -112,9 +118,11 @@ def fix_yaw(des_pos):
 			- des_pos: actual goal position used to fix the yaw
 					   angle of the robot.
 	"""
+	global kp_a;
+	
 	desired_yaw = math.atan2(des_pos.y - position_.y, des_pos.x - position_.x)
 	err_yaw = normalize_angle(desired_yaw - yaw_)
-	rospy.loginfo(err_yaw)
+	#rospy.loginfo(err_yaw)
 	twist_msg = Twist()
 	
 	if math.fabs(err_yaw) > yaw_precision_2_:
@@ -141,16 +149,18 @@ def go_straight_ahead(des_pos):
 				       reach the desired position
 					
 	"""
+	global kp_d, kp_a;
+	
 	desired_yaw = math.atan2(des_pos.y - position_.y, des_pos.x - position_.x)
 	err_yaw = desired_yaw - yaw_
 	err_pos = math.sqrt(pow(des_pos.y - position_.y, 2) +
 						pow(des_pos.x - position_.x, 2))
 	err_yaw = normalize_angle(desired_yaw - yaw_)
-	rospy.loginfo(err_yaw)
+	#rospy.loginfo(err_yaw)
 
 	if err_pos > dist_precision_:
 		twist_msg = Twist()
-		twist_msg.linear.x = 0.3
+		twist_msg.linear.x = kp_d#*0.3
 		if twist_msg.linear.x > ub_d:
 			twist_msg.linear.x = ub_d
 
@@ -173,9 +183,10 @@ def fix_final_yaw(des_yaw):
 		Args:
 			- des_yaw: desired yaw final angle to be reached 
 	"""
-
+	global kp_a;
+	
 	err_yaw = normalize_angle(des_yaw - yaw_)
-	rospy.loginfo(err_yaw)
+	#rospy.loginfo(err_yaw)
 	twist_msg = Twist()
 	if math.fabs(err_yaw) > yaw_precision_2_:
 		twist_msg.angular.z = kp_a*err_yaw
@@ -279,6 +290,7 @@ def main():
 	rospy.init_node('go_to_point')
 	pub_ = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 	sub_odom = rospy.Subscriber('/odom', Odometry, clbk_odom)
+	sub_consts = rospy.Subscriber('/consts', Twist, clbk_consts)
 	action_server = actionlib.SimpleActionServer('/go_to_point', rt2_assignment1.msg.PositionAction, go_to_point, auto_start=False)
 	
 	action_server.start()
