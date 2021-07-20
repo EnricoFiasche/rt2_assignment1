@@ -1,3 +1,36 @@
+/**
+ * \file state_machine.cpp
+ * \brief Main node that manages the whole simulation
+ * \author Enrico Fiasche' S4482512
+ * \version 0.1
+ * \date 28/05/2021
+ * 
+ * \details
+ * 
+ * Publishes to <BR>
+ * 	/stateResult
+ * 
+ * Client: <BR>
+ *	/user_interface
+ *  
+ * Action client: <BR>
+ * 	/position_server
+ * 
+ * Description:
+ * 
+ * state_machine is a node used to communicate with all the other nodes.
+ * This one has a simple client, on /position_server, in order to receive
+ * the next goal, a server, where receives a request by the user
+ * and an action client, which is used to send new goals and to check if
+ * a target is reached. Before start searching a new goal the state machine 
+ * checks if there is a Command request from a client, then if the user
+ * command is "start", the node make a request to the server receiving
+ * a goal between -5.0 and 5.0, regarding x and y position, and the
+ * theta orientation, then the state machine sends this goal to the
+ * server using the action client and waits for a result, which
+ * could be a "success" in case of goal reached and a "failure" in
+ * case of goal canceled. The node publishes this result on a specific topic.
+ */
 #include "ros/ros.h"
 #include "rt2_assignment1/Command.h"
 #include "rt2_assignment1/RandomPosition.h"
@@ -6,21 +39,21 @@
 #include "rt2_assignment1/PositionAction.h"
 #include "std_msgs/Int32.h"
 
-bool start = false; /** variable used to read the command sent by the user */
+bool start = false; /**< variable used to read the command sent by the user */
 
 
 /**
- *  Function of the user_interface server used to modify the value of
- *  the variable "start", based on the command received by the client. 
- *
- *  @param: 
- *	req: request sent by the client, which could be "start"
- *	     or "stop".
+ *  \brief Function used to change the value of variable start
+ *   
+ *	\param req: request sent by the client, which could be "start" or "stop".
  *	
- *	res: response of the server, which is "true" when it finishes
- *	    to modify the start value.
+ *	\param res: response of the server, which is "true" when it finishes 
+ * 				to modify the start value.
  *
- *  @return true when it finishes to modify the start value
+ *  \return always true when it finishes to modify the start value
+ * 
+ *  Function of the user_interface server used to modify the value of
+ *  the variable "start", based on the command received by the client.
  */
 bool user_interface(rt2_assignment1::Command::Request &req, rt2_assignment1::Command::Response &res){
 
@@ -35,6 +68,13 @@ bool user_interface(rt2_assignment1::Command::Request &req, rt2_assignment1::Com
 
 
 /**
+ * 	\brief main function that initialize and manage the simulation
+ * 
+ *  \param argc: number of argument passed as parameter
+ *  \param argv: values passed as parameter
+ * 
+ *  \return 0 when the program ends
+ * 
  *  Main function that creates the service "user_interface", a
  *  client, which is used to receive a random target position, and
  *  an action client, which is used to send a goal and to check if
