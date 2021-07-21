@@ -16,7 +16,7 @@
    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 	args="-urdf -model robot1 -param robot_description -z 0.05"/> 
 	
-   <node name="goToPoint" pkg="rt2_assignment1" type ="go_to_point.py" output="screen"/>
+   <node name="goToPoint" pkg="rt2_assignment1" type ="go_to_point.py"/>
    
    <node name="positionServer"  pkg="rt2_assignment1" type="position_service" />
    
