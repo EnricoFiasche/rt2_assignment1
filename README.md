@@ -1,4 +1,4 @@
-# Research Track 2 - First Assignment 4482512 Enrico Fiasche' (Robotics Engineering / JEMARO, Unige)
+# Research Track 2 - Second Assignment 4482512 Enrico Fiasche' (Robotics Engineering / JEMARO, Unige)
 
 ## General information
 The assignment requires developing a software architecture for the control of a robot in the environment. The **go_to_point** node
