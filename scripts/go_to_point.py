@@ -1,35 +1,36 @@
 #! /usr/bin/env python
 
-## @package rt2_assignment2
-# \file go_to_point.py
-# \brief This node drive the robot to the desired position received
-# \author Enrico Fiasche' S4482512
-# \version 0.1
-# \date 28/07/2021
-#
-# \details
-#
-# Subscribes to: <BR>
-#	/odom
-#	/consts
-#
-# Publishes to: <BR>
-#	/cmd_vel
-#
-# Action server: <BR>
-# 	/go_to_point
-#
-# This node is an action server used to reach a given goal.
-# This node use a publisher, which publishes the velocity of the robot
-# through the cmd_vel topic, and a subscriber, which checks the position
-# of the robot through the odom topic. If a new goal is set, this node
-# fix the yaw angle in order to be aligned with the goal, then the robot
-# can go straight towards the target point and finally, when the robot
-# is near the desired position, it can fix the final yaw angle in order
-# to have the same orientation of the given goal. During these operations,
-# the node checks continuously if the goal is canceled in order to stop
-# the robot.
-#
+"""
+.. module:: go_to_point
+	:platform Unix
+	_synopsis: Python module for piloting the robot to the target
+	
+.. moduleauthor:: Enrico Fiasche' enrico.fiasche@gmail.com
+
+This node drive the robot to the desired position received
+
+Subscribes to:
+	/odom topic where the simulator publishes the robot position
+	/consts topic where the node receives the values of lin and ang constants
+
+Publishes to:
+	/cmd_vel the desired robot position
+
+Action server:
+ 	/go_to_point to start the robot motion
+
+This node is an action server used to reach a given goal.
+This node use a publisher, which publishes the velocity of the robot
+through the cmd_vel topic, and a subscriber, which checks the position
+of the robot through the odom topic. If a new goal is set, this node
+fix the yaw angle in order to be aligned with the goal, then the robot
+can go straight towards the target point and finally, when the robot
+is near the desired position, it can fix the final yaw angle in order
+to have the same orientation of the given goal. During these operations,
+the node checks continuously if the goal is canceled in order to stop
+the robot.
+
+"""
 
 import rospy
 from geometry_msgs.msg import Twist, Point
@@ -39,72 +40,86 @@ import rt2_assignment1.msg
 import actionlib
 import math
 
-## point used to store the actual position
+
 position_ = Point()
+"""point used to store the actual position
+"""
 
-## yaw angle set 0 as default
 yaw_ = 0
+"""yaw angle set 0 as default
+"""
 
-## position set 0 as default
 position_ = 0
+"""position set 0 as default
+"""
 
-## state set 0 as default (fix yaw angle)
 state_ = 0
+"""state set 0 as default (fix yaw angle)
+"""
 
-## publisher used to pub to the topic cmd_vel
 pub_ = None
+"""publisher used to pub to the topic cmd_vel
+"""
 
-## yaw precision allowed (+/- 20 degree)
 yaw_precision_ = math.pi / 9
+"""yaw precision allowed (+/- 20 degree)
+"""
 
-## yaw precision2 allowed (+/- 2 degree)
 yaw_precision_2_ = math.pi / 90
+"""yaw precision2 allowed (+/- 2 degree)
+"""
 
-## distance precision from goal allowed
 dist_precision_ = 0.1
+"""distance precision from goal allowed
+"""
 
-## angular proportional constant
 kp_a = -3.0 
+"""angular proportional constant
+"""
 
-## linear proportional constant
 kp_d = 0.2
+"""linear proportional constant
+"""
 
-## upper bound angular velocity
 ub_a = 0.6
+"""upper bound angular velocity
+"""
 
-## lower bound angular velocity
 lb_a = -0.5
+"""lower bound angular velocity
+"""
 
-## upper bound linear velocity
 ub_d = 0.6
+"""upper bound linear velocity
+"""
 
-## action server used to manage go_to_point
 action_server = None
+"""action server used to manage go_to_point
+"""
 
 def clbk_consts(msg_consts):
-	##
-	#	\brief update constants callback
-	#
-	#	\param msg_consts: contains the new linear and angular constants 
-	#
-	#	Callback function used to update the linear and angular constants
-	#	used during the motion.
-	#
+	"""
+		Callback function used to update the linear and angular constants
+		used during the motion.
 	
+		Args:
+			msg_consts ([float,float]): contains the new linear and angular constants 
+	
+	"""
 	global kp_d, kp_a;
 	
 	kp_d = msg_consts.linear.x
 	kp_a = msg_consts.angular.z
 	
 def clbk_odom(msg):
-	##
-	#	\brief odometry callback
-	#	
-	#	\param msg: contains the position and orientation of the robot
-	#
-	#	Callback function used to check the actual position of the 
-	#	robot through the odom message received.
-	
+	"""
+		Callback function used to check the actual position of the 
+		robot through the odom message received.
+		
+		Args:
+			msg (Odometry): contains the position and orientation of the robot
+		
+	"""
 	global position_
 	global yaw_
 
@@ -122,46 +137,44 @@ def clbk_odom(msg):
 
 
 def change_state(state):
-	##
-	#	\brief change the state of the robot.
-	#	
-	#	\param state: new machine state
-	#
-	#	Function used to change the state of the go_to_point service.
-	#
+	"""
+		Function used to change the state of the go_to_point service.
+		
+		Args:
+			state (int): new machine state
+	"""
 	
 	global state_
 	state_ = state
 	print ('State changed to [%s]' % state_)
 
-
 def normalize_angle(angle):
-	##
-	#	\brief normalize the angle
-	#	
-	#	\param angle: angle to normalize
-	#		
-	#	\return: angle: angle, passed as parameter, normalized
-	#
-	#	Function used to normalize the angle
-	#
+	"""
+		Function used to normalize the angle
+		
+		Args:
+			angle (float): angle to normalize
+			
+		Returns:
+			angle (float): angle, passed as parameter, normalized
+	
+	"""
 	
 	if(math.fabs(angle) > math.pi):
 		angle = angle - (2 * math.pi * angle) / (math.fabs(angle))
 	return angle
 
 def fix_yaw(des_pos):
-	##
-	#	\brief fix the actual yaw angle
-	#
-	#	\param des_pos: actual goal position used to fix the yaw
-	#				   angle of the robot.
-	#
-	# 	Function used to fix the actual yaw angle in order to allow
-	#	the robot to go straight to the goal.
-	#	If the yaw angle is correct (checking also the precision)
-	#	the robot changes the state in "go_straight_ahead".
-	#
+	"""
+		Function used to fix the actual yaw angle in order to allow
+		the robot to go straight to the goal.
+		If the yaw angle is correct (checking also the precision)
+		the robot changes the state in "go_straight_ahead".
+	
+		Args:
+			des_pos (Point): actual goal position used to fix the yaw angle of the robot.
+	 	
+	"""
 	
 	global kp_a;
 	
@@ -184,16 +197,17 @@ def fix_yaw(des_pos):
 
 
 def go_straight_ahead(des_pos):
-	##
-	#	\brief the robot goes straight ahead to the goal position.
-	#	
-	#	\param des_pos: goal position used to allow the robot to
-	#			       reach the desired position
-	#
-	#	Function used to go straight ahead to the goal position.
-	#	If the robot reaches the goal position (checking also the
-	#	precision) changes the state in "fix the final yaw angle".		
-	#
+	"""
+		Function used to go straight ahead to the goal position.
+		If the robot reaches the goal position (checking also the
+		precision) changes the state in "fix the final yaw angle".
+		
+		Args:
+			des_pos (Point): goal position used to allow the robot to
+				       reach the desired position
+	
+				
+	"""
 	
 	global kp_d, kp_a;
 	
@@ -220,16 +234,15 @@ def go_straight_ahead(des_pos):
 		change_state(0)
 
 def fix_final_yaw(des_yaw):
-	##
-	#	\brief fix the final yaw angle.
-	#	
-	#	\param des_yaw: desired yaw final angle to be reached 
-	#
-	#	Function used to fix the final yaw angle of the robot in
-	#	order to reach the final goal position and orientation.
-	#	If the angle is aligned with the des_yaw it changes the state
-	#	in "Target reached".
-	#
+	"""
+		Function used to fix the final yaw angle of the robot in
+		order to reach the final goal position and orientation.
+		If the angle is aligned with the des_yaw it changes the state
+		in "Target reached".
+		
+		Args:
+			des_yaw (float): desired yaw final angle to be reached 
+	"""
 	
 	global kp_a;
 	
@@ -249,10 +262,10 @@ def fix_final_yaw(des_yaw):
 		change_state(3)
         
 def done():
-	##
-	#	Function used to stop the robot publishing 0 velocity on the
-	#	topic cmd_vel.
-	#
+	"""
+		Function used to stop the robot publishing 0 velocity on the
+		topic cmd_vel.
+	"""
 	
 	twist_msg = Twist()
 	twist_msg.linear.x = 0
@@ -260,16 +273,16 @@ def done():
 	pub_.publish(twist_msg)
     
 def go_to_point(goal):
-	##
-	#	\brief
-	#	\param goal: goal position and orientation received.
-	#
-	#	Function used by the action server to manage the behaviour
-	#	of the robot.
-	#	The function, for each cycle, checks if the goal was canceled
-	#	and checks the actual state in order to perform the correct
-	#	function.
-
+	"""
+		Function used by the action server to manage the behaviour
+		of the robot.
+		The function, for each cycle, checks if the goal was canceled
+		and checks the actual state in order to perform the correct
+		function.
+		
+		Args:
+			goal: goal position and orientation received.
+	"""	
 	global action_server, state_
 	
 	desired_position = Point()
@@ -327,12 +340,12 @@ def go_to_point(goal):
 		action_server.set_succeeded(result)
 
 def main():
-	##
-	#	Main function that create a publisher on the topic cmd_vel,
-	#	in order to publish new velocities, a subscriber on the
-	#	topic odom, in order to read the actual position of the
-	#	robot and start the action server.
-	#
+	"""
+		Main function that create a publisher on the topic cmd_vel,
+		in order to publish new velocities, a subscriber on the
+		topic odom, in order to read the actual position of the
+		robot and start the action server.
+	"""
 	
 	global pub_, action_server
 	rospy.init_node('go_to_point')
