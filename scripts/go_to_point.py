@@ -42,59 +42,73 @@ import math
 
 
 position_ = Point()
-"""point used to store the actual position
+"""Point: point used to store the actual position
+
 """
 
 yaw_ = 0
-"""yaw angle set 0 as default
+"""Float: yaw angle set 0 as default
+
 """
 
 position_ = 0
-"""position set 0 as default
+"""Point: position set 0 as default
+
 """
 
 state_ = 0
-"""state set 0 as default (fix yaw angle)
+"""Int: state set 0 as default (fix yaw angle)
+
 """
 
 pub_ = None
-"""publisher used to pub to the topic cmd_vel
+"""Publisher: publisher used to pub to the topic cmd_vel
+
 """
 
 yaw_precision_ = math.pi / 9
-"""yaw precision allowed (+/- 20 degree)
+"""Float: yaw precision allowed (+/- 20 degree)
+
 """
 
 yaw_precision_2_ = math.pi / 90
-"""yaw precision2 allowed (+/- 2 degree)
+"""Float: yaw precision2 allowed (+/- 2 degree)
+
 """
 
 dist_precision_ = 0.1
-"""distance precision from goal allowed
+"""Float: distance precision from goal allowed
+
 """
 
 kp_a = -3.0 
-"""angular proportional constant
+"""Float: angular proportional constant
+
 """
 
 kp_d = 0.2
-"""linear proportional constant
+"""Float: linear proportional constant
+
 """
 
 ub_a = 0.6
-"""upper bound angular velocity
+"""Float: upper bound angular velocity
+
 """
 
 lb_a = -0.5
-"""lower bound angular velocity
+"""Float: lower bound angular velocity
+
 """
 
 ub_d = 0.6
-"""upper bound linear velocity
+"""Float: upper bound linear velocity
+
 """
 
 action_server = None
-"""action server used to manage go_to_point
+"""Action_server: action server used to manage go_to_point
+
 """
 
 def clbk_consts(msg_consts):
